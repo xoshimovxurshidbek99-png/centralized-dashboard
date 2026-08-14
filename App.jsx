@@ -1,6 +1,10 @@
 import { useState } from "react";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+
   const [page, setPage] = useState("dashboard");
   const [selectedMTT, setSelectedMTT] = useState(null);
   const [search, setSearch] = useState("");
@@ -36,7 +40,50 @@ function App() {
     group: "Katta guruh",
     age: 6,
   });
+  function handleLogin() {
+    if (login === "admin" && password === "12345") {
+      setLoggedIn(true);
+    } else {
+      alert("Login yoki parol noto‘g‘ri!");
+    }
+  }
 
+  if (!loggedIn) {
+    return (
+      <div style={styles.loginPage}>
+        <div style={styles.loginBox}>
+          <div style={styles.loginLogo}>CE</div>
+
+          <h1 style={styles.loginTitle}>Central Edu</h1>
+          <p style={styles.loginSubtitle}>
+            Tizimga kirish
+          </p>
+
+          <input
+            style={styles.loginInput}
+            placeholder="Login"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
+          />
+
+          <input
+            style={styles.loginInput}
+            type="password"
+            placeholder="Parol"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button
+            style={styles.loginButton}
+            onClick={handleLogin}
+          >
+            Kirish
+          </button>
+        </div>
+      </div>
+    );
+  }
   const mtts = [
     { name: "MTT №1", children: 40, attendance: "94%" },
     { name: "MTT №2", children: 42, attendance: "91%" },
@@ -870,7 +917,69 @@ const styles = {
     cursor: "pointer",
   },
 
-  empty: {
+  empty:  loginPage: {
+    minHeight: "100vh",
+    background: "#f4f7fb",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  loginBox: {
+    width: "380px",
+    background: "white",
+    padding: "40px",
+    borderRadius: "16px",
+    boxShadow: "0 10px 35px rgba(0,0,0,0.08)",
+    textAlign: "center",
+  },
+
+  loginLogo: {
+    width: "55px",
+    height: "55px",
+    margin: "0 auto 15px",
+    borderRadius: "14px",
+    background: "#2563eb",
+    color: "white",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: "bold",
+    fontSize: "20px",
+  },
+
+  loginTitle: {
+    margin: "0",
+    fontSize: "25px",
+  },
+
+  loginSubtitle: {
+    color: "#64748b",
+    marginBottom: "25px",
+  },
+
+  loginInput: {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "13px",
+    marginBottom: "12px",
+    border: "1px solid #dbe2ea",
+    borderRadius: "8px",
+    outline: "none",
+    fontSize: "14px",
+  },
+
+  loginButton: {
+    width: "100%",
+    padding: "13px",
+    background: "#2563eb",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "15px",
+  }, {
     textAlign: "center",
     padding: "35px",
     color: "#94a3b8",

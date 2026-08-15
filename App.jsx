@@ -969,7 +969,7 @@ const styles = {
     fontSize: "14px",
   },
 
-  loginButton: {
+    loginButton: {
     width: "100%",
     padding: "13px",
     background: "#2563eb",
@@ -979,9 +979,8 @@ const styles = {
     cursor: "pointer",
     fontWeight: "bold",
     fontSize: "15px",
-   },
+  },
 
-};
 };
 
 export default App;

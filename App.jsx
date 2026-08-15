@@ -979,11 +979,9 @@ const styles = {
     cursor: "pointer",
     fontWeight: "bold",
     fontSize: "15px",
-  }, {
-    textAlign: "center",
-    padding: "35px",
-    color: "#94a3b8",
-  },
+   },
+
+};
 };
 
 export default App;

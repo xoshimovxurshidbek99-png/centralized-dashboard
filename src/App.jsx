@@ -401,20 +401,16 @@ function App() {
   value={search}
   onChange={(e) => setSearch(e.target.value)}
 />
-              placeholder="🔎 Bolani qidirish..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+</div>
 
-          <div style={styles.tableHeader}>
-            <span>F.I.Sh.</span>
-            <span>MTT</span>
-            <span>Guruh</span>
-            <span>Yosh</span>
-            <span>Holat</span>
-            <span>Amal</span>
-          </div>
+<div style={styles.tableHeader}>
+  <span>F.I.Sh.</span>
+  <span>MTT</span>
+  <span>Guruh</span>
+  <span>Yosh</span>
+  <span>Holat</span>
+  <span>Amal</span>
+</div>
 
           {filteredChildren.map((child) => (
             <div key={child.id} style={styles.childRow}>

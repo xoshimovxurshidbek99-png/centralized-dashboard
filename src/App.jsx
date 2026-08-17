@@ -7,7 +7,7 @@ function App() {
   const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");
 
-  const [children, setChildren] = useState([
+  const [children] = useState([
     {
       id: 1,
       name: "Ali Valiyev",
@@ -57,9 +57,7 @@ function App() {
 
           <h1 style={styles.title}>Central Edu</h1>
 
-          <p style={styles.subtitle}>
-            Tizimga kirish
-          </p>
+          <p style={styles.subtitle}>Tizimga kirish</p>
 
           <input
             type="text"
@@ -96,13 +94,9 @@ function App() {
   return (
     <div style={styles.app}>
       <aside style={styles.sidebar}>
-        <div style={styles.sidebarLogo}>
-          CE
-        </div>
+        <div style={styles.sidebarLogo}>CE</div>
 
-        <h2 style={{ margin: "10px 0 5px" }}>
-          Central Edu
-        </h2>
+        <h2>Central Edu</h2>
 
         <p style={styles.sidebarText}>
           Online Education
@@ -143,7 +137,7 @@ function App() {
       <main style={styles.main}>
         <h1>Dashboard</h1>
 
-        <p style={styles.dashboardSubtitle}>
+        <p style={styles.subtitleLeft}>
           Centralized Online Education tizimi
         </p>
 
@@ -177,8 +171,7 @@ function App() {
           <div style={styles.panelHeader}>
             <div>
               <h2>👧 Bolalar ro‘yxati</h2>
-
-              <p style={styles.dashboardSubtitle}>
+              <p style={styles.subtitleLeft}>
                 Bolani qidirish
               </p>
             </div>
@@ -206,13 +199,9 @@ function App() {
               style={styles.childRow}
             >
               <b>{child.name}</b>
-
               <span>{child.mtt}</span>
-
               <span>{child.group}</span>
-
               <span>{child.age}</span>
-
               <span style={styles.active}>
                 ● Faol
               </span>
@@ -245,7 +234,7 @@ const styles = {
     padding: "35px",
     background: "white",
     borderRadius: "16px",
-    boxShadow: "0 8px 30px rgba(0,0,0,0.10)",
+    boxShadow: "0 8px 30px rgba(0,0,0,0.1)",
   },
 
   logo: {
@@ -265,7 +254,6 @@ const styles = {
   title: {
     textAlign: "center",
     margin: 0,
-    color: "#172033",
   },
 
   subtitle: {
@@ -330,7 +318,6 @@ const styles = {
   sidebarText: {
     color: "#94a3b8",
     fontSize: "12px",
-    marginTop: 0,
     marginBottom: "30px",
   },
 
@@ -373,7 +360,7 @@ const styles = {
     padding: "35px",
   },
 
-  dashboardSubtitle: {
+  subtitleLeft: {
     color: "#64748b",
   },
 

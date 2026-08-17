@@ -1,10 +1,46 @@
+```jsx
 import { useState } from "react";
 
+const MTT_DATA = [
+  {
+    name: "MTT №1",
+    children: 120,
+    attendance: "94%",
+    groups: 6,
+  },
+  {
+    name: "MTT №2",
+    children: 98,
+    attendance: "91%",
+    groups: 5,
+  },
+  {
+    name: "MTT №3",
+    children: 115,
+    attendance: "93%",
+    groups: 6,
+  },
+  {
+    name: "MTT №4",
+    children: 87,
+    attendance: "90%",
+    groups: 4,
+  },
+  {
+    name: "MTT №5",
+    children: 105,
+    attendance: "95%",
+    groups: 5,
+  },
+];
+
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+
   const [page, setPage] = useState("dashboard");
-  const [selectedMTT, setSelectedMTT] = useState(null);
   const [search, setSearch] = useState("");
-  const [showAdd, setShowAdd] = useState(false);
 
   const [children, setChildren] = useState([
     {
@@ -17,9 +53,9 @@ function App() {
     {
       id: 2,
       name: "Madina Karimova",
-      mtt: "MTT №1",
-      group: "Katta guruh",
-      age: 6,
+      mtt: "MTT №2",
+      group: "O‘rta guruh",
+      age: 5,
     },
     {
       id: 3,
@@ -37,39 +73,25 @@ function App() {
     age: 6,
   });
 
-  const mtts = [
-    { name: "MTT №1", children: 40, attendance: "94%" },
-    { name: "MTT №2", children: 42, attendance: "91%" },
-    { name: "MTT №3", children: 38, attendance: "93%" },
-    { name: "MTT №4", children: 41, attendance: "89%" },
-    { name: "MTT №5", children: 43, attendance: "95%" },
-    { name: "MTT №6", children: 39, attendance: "90%" },
-    { name: "MTT №7", children: 44, attendance: "92%" },
-    { name: "MTT №8", children: 40, attendance: "94%" },
-    { name: "MTT №9", children: 46, attendance: "91%" },
-    { name: "MTT №10", children: 47, attendance: "93%" },
-  ];
+  const [showAdd, setShowAdd] = useState(false);
 
-  const menu = [
-    ["dashboard", "🏠", "Dashboard"],
-    ["mtt", "🏫", "MTTlar"],
-    ["children", "👧", "Bolalar"],
-    ["teachers", "👨‍🏫", "O‘qituvchilar"],
-    ["lessons", "📚", "Darslar"],
-    ["attendance", "📊", "Davomat"],
-    ["tv", "📺", "Smart TV"],
-    ["finance", "💰", "Moliyaviy"],
-    ["investor", "💼", "Investor"],
-  ];
+  function handleLogin() {
+    if (login === "admin" && password === "12345") {
+      setLoggedIn(true);
+    } else {
+      alert("Login yoki parol noto‘g‘ri!");
+    }
+  }
 
-  function openMTT(mtt) {
-    setSelectedMTT(mtt);
-    setPage("mtt-detail");
+  function handleLogout() {
+    setLoggedIn(false);
+    setLogin("");
+    setPassword("");
   }
 
   function addChild() {
-    if (newChild.name.trim() === "") {
-      alert("Bolaning F.I.Sh. ni kiriting.");
+    if (!newChild.name.trim()) {
+      alert("Bolaning F.I.Sh. ni kiriting!");
       return;
     }
 
@@ -101,29 +123,96 @@ function App() {
     child.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  if (!loggedIn) {
+    return (
+      <div style={styles.loginPage}>
+        <div style={styles.loginBox}>
+          <div style={styles.loginLogo}>CE</div>
+
+          <h1 style={styles.loginTitle}>Central Edu</h1>
+
+          <p style={styles.loginSubtitle}>
+            Tizimga kirish
+          </p>
+
+          <input
+            type="text"
+            placeholder="Login"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
+            style={styles.loginInput}
+          />
+
+          <input
+            type="password"
+            placeholder="Parol"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleLogin();
+              }
+            }}
+            style={styles.loginInput}
+          />
+
+          <button
+            style={styles.loginButton}
+            onClick={handleLogin}
+          >
+            Kirish
+          </button>
+
+          <p style={styles.loginHint}>
+            Login: admin &nbsp; | &nbsp; Parol: 12345
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   function Dashboard() {
     return (
       <>
         <h1>Dashboard</h1>
+
         <p style={styles.subtitle}>
           Centralized Online Education tizimi
         </p>
 
         <div style={styles.cards}>
-          <Card icon="🏫" title="Ulangan MTTlar" value="10" />
+          <Card
+            icon="🏫"
+            title="Ulangan MTTlar"
+            value={MTT_DATA.length}
+          />
+
           <Card
             icon="👧"
             title="Ro‘yxatdagi bolalar"
             value={children.length}
           />
-          <Card icon="👨‍🏫" title="O‘qituvchilar" value="10" />
-          <Card icon="📊" title="O‘rtacha davomat" value="92%" />
+
+          <Card
+            icon="👨‍🏫"
+            title="O‘qituvchilar"
+            value="50"
+          />
+
+          <Card
+            icon="📊"
+            title="O‘rtacha davomat"
+            value="92%"
+          />
         </div>
 
         <div style={styles.panel}>
           <div style={styles.panelHeader}>
             <div>
-              <h2 style={styles.panelTitle}>🏫 MTTlar holati</h2>
+              <h2 style={styles.panelTitle}>
+                🏫 MTTlar holati
+              </h2>
+
               <p style={styles.smallText}>
                 Ulangan maktabgacha ta’lim muassasalari
               </p>
@@ -137,160 +226,19 @@ function App() {
             </button>
           </div>
 
-          {mtts.slice(0, 5).map((mtt) => (
+          {MTT_DATA.map((mtt) => (
             <div
               key={mtt.name}
               style={styles.listRow}
-              onClick={() => openMTT(mtt)}
             >
               <b>{mtt.name}</b>
               <span>👧 {mtt.children} bola</span>
               <span>📊 {mtt.attendance}</span>
-              <span style={styles.green}>● Faol</span>
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
-
-  function MTTPage() {
-    return (
-      <>
-        <h1>🏫 MTTlar</h1>
-
-        <p style={styles.subtitle}>
-          Markaziy online ta’lim tizimiga ulangan 10 ta MTT
-        </p>
-
-        <div style={styles.mttGrid}>
-          {mtts.map((mtt) => (
-            <div key={mtt.name} style={styles.mttCard}>
-              <div style={styles.mttTop}>
-                <div style={styles.mttIcon}>🏫</div>
-
-                <div>
-                  <h2 style={styles.mttName}>{mtt.name}</h2>
-                  <span style={styles.activeBadge}>● Faol</span>
-                </div>
-              </div>
-
-              <div style={styles.mttInfo}>
-                <span>👧 Bolalar</span>
-                <b>{mtt.children}</b>
-              </div>
-
-              <div style={styles.mttInfo}>
-                <span>📊 Davomat</span>
-                <b>{mtt.attendance}</b>
-              </div>
-
-              <div style={styles.mttInfo}>
-                <span>📺 Smart TV</span>
-                <b style={styles.green}>Faol</b>
-              </div>
-
-              <button
-                style={styles.blueButtonFull}
-                onClick={() => openMTT(mtt)}
-              >
-                Batafsil →
-              </button>
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
-
-  function MTTDetail() {
-    if (!selectedMTT) {
-      return (
-        <div style={styles.panel}>
-          <h2>MTT tanlanmagan</h2>
-
-          <button
-            style={styles.blueButton}
-            onClick={() => setPage("mtt")}
-          >
-            MTTlar
-          </button>
-        </div>
-      );
-    }
-
-    return (
-      <>
-        <button
-          style={styles.backButton}
-          onClick={() => setPage("mtt")}
-        >
-          ← MTTlar
-        </button>
-
-        <h1>{selectedMTT.name}</h1>
-
-        <p style={styles.subtitle}>
-          Markaziy online ta’lim tizimiga ulangan MTT
-        </p>
-
-        <div style={styles.cards}>
-          <Card
-            icon="👧"
-            title="Bolalar"
-            value={selectedMTT.children}
-          />
-
-          <Card
-            icon="📊"
-            title="Davomat"
-            value={selectedMTT.attendance}
-          />
-
-          <Card icon="📺" title="Smart TV" value="Faol" />
-
-          <Card icon="💰" title="Oylik to‘lov" value="1.5 mln" />
-        </div>
-
-        <div style={styles.twoColumns}>
-          <div style={styles.panel}>
-            <h2 style={styles.panelTitle}>📚 Bugungi dars</h2>
-
-            <div style={styles.lessonBox}>
-              <h3>English for Kids</h3>
-              <p>🕙 10:00 — 10:40</p>
-              <p>👨‍🏫 Markaziy o‘qituvchi</p>
-              <p>📺 Smart TV orqali online dars</p>
-
-              <span style={styles.onlineBadge}>
-                🟢 Online
+              <span style={styles.green}>
+                ● Faol
               </span>
             </div>
-          </div>
-
-          <div style={styles.panel}>
-            <h2 style={styles.panelTitle}>📊 MTT holati</h2>
-
-            <div style={styles.infoRow}>
-              <span>Bolalar</span>
-              <b>{selectedMTT.children}</b>
-            </div>
-
-            <div style={styles.infoRow}>
-              <span>Davomat</span>
-              <b>{selectedMTT.attendance}</b>
-            </div>
-
-            <div style={styles.infoRow}>
-              <span>Smart TV</span>
-              <b style={styles.green}>Faol</b>
-            </div>
-
-            <div style={styles.infoRow}>
-              <span>Online tizim</span>
-              <b style={styles.green}>Faol</b>
-            </div>
-          </div>
+          ))}
         </div>
       </>
     );
@@ -301,14 +249,15 @@ function App() {
       <>
         <div style={styles.pageHeader}>
           <div>
-            <h1>👧 Bolalar</h1>
+            <h1>Bolalar</h1>
+
             <p style={styles.subtitle}>
-              Tizimdagi barcha bolalar
+              Barcha bolalar ro‘yxati
             </p>
           </div>
 
           <button
-            style={styles.blueButton}
+            style={styles.greenButton}
             onClick={() => setShowAdd(!showAdd)}
           >
             + Bola qo‘shish
@@ -316,69 +265,69 @@ function App() {
         </div>
 
         {showAdd && (
-          <div style={styles.panel}>
+          <div style={styles.addPanel}>
             <h2 style={styles.panelTitle}>
-              ➕ Yangi bola qo‘shish
+              Yangi bola qo‘shish
             </h2>
 
-            <div style={styles.formGrid}>
-              <input
-                style={styles.input}
-                placeholder="Bolaning F.I.Sh."
-                value={newChild.name}
-                onChange={(e) =>
-                  setNewChild({
-                    ...newChild,
-                    name: e.target.value,
-                  })
-                }
-              />
+            <input
+              style={styles.input}
+              placeholder="F.I.Sh."
+              value={newChild.name}
+              onChange={(e) =>
+                setNewChild({
+                  ...newChild,
+                  name: e.target.value,
+                })
+              }
+            />
 
-              <select
-                style={styles.input}
-                value={newChild.mtt}
-                onChange={(e) =>
-                  setNewChild({
-                    ...newChild,
-                    mtt: e.target.value,
-                  })
-                }
-              >
-                {mtts.map((mtt) => (
-                  <option key={mtt.name}>{mtt.name}</option>
-                ))}
-              </select>
+            <select
+              style={styles.input}
+              value={newChild.mtt}
+              onChange={(e) =>
+                setNewChild({
+                  ...newChild,
+                  mtt: e.target.value,
+                })
+              }
+            >
+              {MTT_DATA.map((mtt) => (
+                <option key={mtt.name}>
+                  {mtt.name}
+                </option>
+              ))}
+            </select>
 
-              <select
-                style={styles.input}
-                value={newChild.group}
-                onChange={(e) =>
-                  setNewChild({
-                    ...newChild,
-                    group: e.target.value,
-                  })
-                }
-              >
-                <option>Kichik guruh</option>
-                <option>O‘rta guruh</option>
-                <option>Katta guruh</option>
-                <option>Tayyorlov guruhi</option>
-              </select>
+            <select
+              style={styles.input}
+              value={newChild.group}
+              onChange={(e) =>
+                setNewChild({
+                  ...newChild,
+                  group: e.target.value,
+                })
+              }
+            >
+              <option>Kichik guruh</option>
+              <option>O‘rta guruh</option>
+              <option>Katta guruh</option>
+              <option>Tayyorlov guruhi</option>
+            </select>
 
-              <input
-                style={styles.input}
-                type="number"
-                min="3"
-                max="7"
-                value={newChild.age}
-                onChange={(e) =>
-                  setNewChild({
-                    ...newChild,
-                    age: e.target.value,
-                  })
-                }
-              />
-            </div>
+            <input
+              style={styles.input}
+              type="number"
+              min="1"
+              max="10"
+              value={newChild.age}
+              onChange={(e) =>
+                setNewChild({
+                  ...newChild,
+                  age: e.target.value,
+                })
+              }
+            />
 
             <button
               style={styles.greenButton}
@@ -396,63 +345,95 @@ function App() {
             </h2>
 
             <input
-  style={styles.search}
-  placeholder="🔎 Bolani qidirish..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
-</div>
+              type="text"
+              style={styles.search}
+              placeholder="🔎 Bolani qidirish..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
-<div style={styles.tableHeader}>
-  <span>F.I.Sh.</span>
-  <span>MTT</span>
-  <span>Guruh</span>
-  <span>Yosh</span>
-  <span>Holat</span>
-  <span>Amal</span>
-</div>
+          <div style={styles.tableHeader}>
+            <span>F.I.Sh.</span>
+            <span>MTT</span>
+            <span>Guruh</span>
+            <span>Yosh</span>
+            <span>Holat</span>
+            <span>Amal</span>
+          </div>
 
-          {filteredChildren.map((child) => (
-            <div key={child.id} style={styles.childRow}>
-              <b>{child.name}</b>
-              <span>{child.mtt}</span>
-              <span>{child.group}</span>
-              <span>{child.age}</span>
-              <span style={styles.activeBadge}>Faol</span>
-
-              <button
-                style={styles.deleteButton}
-                onClick={() => deleteChild(child.id)}
-              >
-                🗑️
-              </button>
-            </div>
-          ))}
-
-          {filteredChildren.length === 0 && (
+          {filteredChildren.length === 0 ? (
             <div style={styles.empty}>
               Bola topilmadi
             </div>
+          ) : (
+            filteredChildren.map((child) => (
+              <div
+                key={child.id}
+                style={styles.childRow}
+              >
+                <b>{child.name}</b>
+
+                <span>{child.mtt}</span>
+
+                <span>{child.group}</span>
+
+                <span>{child.age}</span>
+
+                <span style={styles.activeBadge}>
+                  Faol
+                </span>
+
+                <button
+                  style={styles.deleteButton}
+                  onClick={() => deleteChild(child.id)}
+                >
+                  O‘chirish
+                </button>
+              </div>
+            ))
           )}
         </div>
       </>
     );
   }
 
-  function SimplePage({ icon, title }) {
+  function MTTPage() {
     return (
       <>
-        <h1>
-          {icon} {title}
-        </h1>
+        <h1>MTTlar</h1>
+
+        <p style={styles.subtitle}>
+          Ulangan maktabgacha ta’lim muassasalari
+        </p>
 
         <div style={styles.panel}>
-          <h2>{title} bo‘limi</h2>
+          {MTT_DATA.map((mtt) => (
+            <div
+              key={mtt.name}
+              style={styles.mttCard}
+            >
+              <div>
+                <h3>{mtt.name}</h3>
 
-          <p style={styles.subtitle}>
-            Ushbu modul keyingi bosqichda to‘liq ishga
-            tushiriladi.
-          </p>
+                <p>
+                  👧 {mtt.children} bola
+                </p>
+
+                <p>
+                  👥 {mtt.groups} ta guruh
+                </p>
+              </div>
+
+              <div style={styles.mttRight}>
+                <b>{mtt.attendance}</b>
+
+                <span style={styles.green}>
+                  ● Faol
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </>
     );
@@ -461,89 +442,88 @@ function App() {
   return (
     <div style={styles.app}>
       <aside style={styles.sidebar}>
-        <div style={styles.logo}>
-          <div style={styles.logoBox}>CE</div>
+        <div style={styles.logoArea}>
+          <div style={styles.sidebarLogo}>CE</div>
 
           <div>
             <b>Central Edu</b>
-            <small>Online Education</small>
+
+            <div style={styles.logoSmall}>
+              Online Education
+            </div>
           </div>
         </div>
 
-        <div style={styles.menuTitle}>ASOSIY MENU</div>
-
-        {menu.map((item) => (
-          <div
-            key={item[0]}
-            onClick={() => setPage(item[0])}
-            style={{
-              ...styles.menuItem,
-              background:
-                page === item[0] ? "#2563eb" : "transparent",
-              color:
-                page === item[0] ? "white" : "#cbd5e1",
-            }}
-          >
-            <span>{item[1]}</span>
-            <span>{item[2]}</span>
-          </div>
-        ))}
-
-        <div style={styles.sidebarBottom}>
-          ⚙️ Sozlamalar
+        <div style={styles.menuTitle}>
+          ASOSIY
         </div>
+
+        <button
+          style={
+            page === "dashboard"
+              ? styles.menuActive
+              : styles.menuButton
+          }
+          onClick={() => setPage("dashboard")}
+        >
+          🏠 Dashboard
+        </button>
+
+        <button
+          style={
+            page === "mtt"
+              ? styles.menuActive
+              : styles.menuButton
+          }
+          onClick={() => setPage("mtt")}
+        >
+          🏫 MTTlar
+        </button>
+
+        <button
+          style={
+            page === "children"
+              ? styles.menuActive
+              : styles.menuButton
+          }
+          onClick={() => setPage("children")}
+        >
+          👧 Bolalar
+        </button>
+
+        <button
+          style={styles.menuButton}
+          onClick={() => alert("O‘qituvchilar bo‘limi tez orada")}
+        >
+          👨‍🏫 O‘qituvchilar
+        </button>
+
+        <button
+          style={styles.menuButton}
+          onClick={() => alert("Smart TV bo‘limi tez orada")}
+        >
+          📺 Smart TV
+        </button>
+
+        <button
+          style={styles.menuButton}
+          onClick={() => alert("Moliya bo‘limi tez orada")}
+        >
+          💰 Moliya
+        </button>
+
+        <button
+          style={styles.logoutButton}
+          onClick={handleLogout}
+        >
+          🚪 Chiqish
+        </button>
       </aside>
 
       <main style={styles.main}>
         {page === "dashboard" && <Dashboard />}
-
-        {page === "mtt" && <MTTPage />}
-
-        {page === "mtt-detail" && <MTTDetail />}
-
         {page === "children" && <ChildrenPage />}
-
-        {page === "teachers" && (
-          <SimplePage
-            icon="👨‍🏫"
-            title="O‘qituvchilar"
-          />
-        )}
-
-        {page === "lessons" && (
-          <SimplePage
-            icon="📚"
-            title="Darslar"
-          />
-        )}
-
-        {page === "attendance" && (
-          <SimplePage
-            icon="📊"
-            title="Davomat"
-          />
-        )}
-
-        {page === "tv" && (
-          <SimplePage
-            icon="📺"
-            title="Smart TV"
-          />
-        )}
-
-        {page === "finance" && (
-          <SimplePage
-            icon="💰"
-            title="Moliyaviy"
-          />
-        )}
-
-        {page === "investor" && (
-          <SimplePage
-            icon="💼"
-            title="Investor"
-          />
-        )}
+        {page === "mtt" && <MTTPage />}
       </main>
     </div>
   );
@@ -552,7 +532,9 @@ function App() {
 function Card({ icon, title, value }) {
   return (
     <div style={styles.card}>
-      <div style={styles.cardIcon}>{icon}</div>
+      <div style={styles.cardIcon}>
+        {icon}
+      </div>
 
       <div style={styles.cardTitle}>
         {title}
@@ -573,6 +555,79 @@ const styles = {
     color: "#172033",
   },
 
+  loginPage: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "#f4f7fb",
+    fontFamily: "Arial, sans-serif",
+  },
+
+  loginBox: {
+    width: "360px",
+    background: "#ffffff",
+    padding: "35px",
+    borderRadius: "16px",
+    boxShadow: "0 8px 30px rgba(0,0,0,0.10)",
+  },
+
+  loginLogo: {
+    width: "58px",
+    height: "58px",
+    margin: "0 auto 15px",
+    background: "#2563eb",
+    color: "white",
+    borderRadius: "14px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontWeight: "bold",
+    fontSize: "20px",
+  },
+
+  loginTitle: {
+    textAlign: "center",
+    margin: "0",
+  },
+
+  loginSubtitle: {
+    textAlign: "center",
+    color: "#64748b",
+    marginBottom: "25px",
+  },
+
+  loginInput: {
+    width: "100%",
+    padding: "13px",
+    marginBottom: "12px",
+    border: "1px solid #dbe2ea",
+    borderRadius: "8px",
+    outline: "none",
+    boxSizing: "border-box",
+    fontSize: "15px",
+    fontFamily: "Arial, sans-serif",
+  },
+
+  loginButton: {
+    width: "100%",
+    padding: "13px",
+    background: "#2563eb",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "15px",
+  },
+
+  loginHint: {
+    textAlign: "center",
+    color: "#94a3b8",
+    fontSize: "12px",
+    marginTop: "18px",
+  },
+
   sidebar: {
     position: "fixed",
     left: 0,
@@ -582,9 +637,10 @@ const styles = {
     background: "#111827",
     color: "white",
     padding: "24px 14px",
+    boxSizing: "border-box",
   },
 
-  logo: {
+  logoArea: {
     display: "flex",
     alignItems: "center",
     gap: "12px",
@@ -592,15 +648,21 @@ const styles = {
     marginBottom: "35px",
   },
 
-  logoBox: {
+  sidebarLogo: {
     width: "43px",
     height: "43px",
     borderRadius: "11px",
     background: "#2563eb",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     fontWeight: "bold",
+  },
+
+  logoSmall: {
+    fontSize: "11px",
+    color: "#94a3b8",
+    marginTop: "3px",
   },
 
   menuTitle: {
@@ -609,32 +671,52 @@ const styles = {
     margin: "0 10px 10px",
   },
 
-  menuItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
+  menuButton: {
+    width: "100%",
     padding: "12px",
-    marginBottom: "5px",
     borderRadius: "8px",
+    color: "#cbd5e1",
+    background: "transparent",
+    border: "none",
+    textAlign: "left",
     cursor: "pointer",
     fontSize: "14px",
+    marginBottom: "4px",
   },
 
-  sidebarBottom: {
+  menuActive: {
+    width: "100%",
+    padding: "12px",
+    borderRadius: "8px",
+    color: "white",
+    background: "#2563eb",
+    border: "none",
+    textAlign: "left",
+    cursor: "pointer",
+    fontSize: "14px",
+    marginBottom: "4px",
+  },
+
+  logoutButton: {
     position: "absolute",
-    bottom: "25px",
     left: "25px",
+    bottom: "25px",
+    background: "transparent",
+    border: "none",
     color: "#94a3b8",
+    cursor: "pointer",
+    fontSize: "14px",
   },
 
   main: {
     marginLeft: "235px",
     padding: "35px",
+    boxSizing: "border-box",
   },
 
   subtitle: {
     color: "#64748b",
-    marginTop: "-8px",
+    marginTop: 0,
   },
 
   cards: {
@@ -642,7 +724,6 @@ const styles = {
     gridTemplateColumns: "repeat(4, 1fr)",
     gap: "18px",
     marginTop: "28px",
-    marginBottom: "25px",
   },
 
   card: {
@@ -659,7 +740,6 @@ const styles = {
   cardTitle: {
     color: "#64748b",
     marginTop: "10px",
-    fontSize: "14px",
   },
 
   cardValue: {
@@ -673,14 +753,15 @@ const styles = {
     padding: "25px",
     borderRadius: "14px",
     boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-    marginBottom: "20px",
+    marginTop: "25px",
   },
 
   panelHeader: {
     display: "flex",
-    alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: "15px",
+    alignItems: "center",
+    marginBottom: "20px",
+    gap: "20px",
   },
 
   panelTitle: {
@@ -692,181 +773,109 @@ const styles = {
     fontSize: "13px",
   },
 
-  listRow: {
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr 1fr 1fr",
-    padding: "17px 5px",
-    borderBottom: "1px solid #edf0f4",
-    cursor: "pointer",
-  },
-
-  green: {
-    color: "#16a34a",
-  },
-
-  mttGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "20px",
-    marginTop: "25px",
-  },
-
-  mttCard: {
-    background: "white",
-    padding: "24px",
-    borderRadius: "14px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-  },
-
-  mttTop: {
-    display: "flex",
-    gap: "14px",
-    alignItems: "center",
-    marginBottom: "20px",
-  },
-
-  mttIcon: {
-    fontSize: "30px",
-  },
-
-  mttName: {
-    margin: "0 0 5px",
-  },
-
-  activeBadge: {
-    color: "#16a34a",
-    fontSize: "13px",
-  },
-
-  mttInfo: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "11px 0",
-    borderBottom: "1px solid #edf0f4",
-  },
-
   blueButton: {
-    background: "#2563eb",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
     padding: "11px 16px",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-
-  blueButtonFull: {
-    width: "100%",
     background: "#2563eb",
     color: "white",
     border: "none",
     borderRadius: "8px",
-    padding: "11px",
     cursor: "pointer",
-    marginTop: "18px",
   },
 
   greenButton: {
+    padding: "11px 16px",
     background: "#16a34a",
     color: "white",
     border: "none",
     borderRadius: "8px",
-    padding: "11px 20px",
     cursor: "pointer",
-    marginTop: "15px",
+    fontWeight: "bold",
   },
 
-  backButton: {
-    background: "#374151",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    padding: "10px 16px",
-    cursor: "pointer",
-    marginBottom: "20px",
-  },
-
-  twoColumns: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "20px",
-  },
-
-  lessonBox: {
-    background: "#f8fafc",
-    padding: "20px",
-    borderRadius: "10px",
-  },
-
-  onlineBadge: {
-    display: "inline-block",
-    marginTop: "10px",
+  green: {
     color: "#16a34a",
-    background: "#dcfce7",
-    padding: "6px 10px",
-    borderRadius: "20px",
-    fontSize: "12px",
+    fontWeight: "bold",
   },
 
-  infoRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "14px 0",
-    borderBottom: "1px solid #edf0f4",
+  listRow: {
+    display: "grid",
+    gridTemplateColumns: "1.5fr 1fr 1fr 1fr",
+    gap: "15px",
+    padding: "16px 0",
+    borderTop: "1px solid #eef2f7",
+    alignItems: "center",
   },
 
   pageHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
   },
 
-  formGrid: {
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr 1fr 1fr",
-    gap: "12px",
+  addPanel: {
+    background: "white",
+    padding: "25px",
+    borderRadius: "14px",
+    marginTop: "20px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
   },
 
   input: {
+    width: "100%",
     padding: "12px",
+    marginBottom: "12px",
     border: "1px solid #dbe2ea",
     borderRadius: "8px",
+    boxSizing: "border-box",
+    fontSize: "14px",
+    fontFamily: "Arial, sans-serif",
     outline: "none",
   },
 
   search: {
-    width: "250px",
-    padding: "11px",
+    width: "280px",
+    padding: "12px",
     border: "1px solid #dbe2ea",
     borderRadius: "8px",
+    boxSizing: "border-box",
+    fontSize: "15px",
+    fontFamily: "Arial, sans-serif",
     outline: "none",
   },
 
   tableHeader: {
     display: "grid",
-    gridTemplateColumns: "1.6fr 1fr 1.2fr .5fr .7fr .5fr",
-    padding: "12px 0",
-    color: "#94a3b8",
-    fontSize: "12px",
-    borderBottom: "1px solid #e5e7eb",
+    gridTemplateColumns: "1.5fr 1fr 1fr 0.5fr 0.7fr 0.8fr",
+    gap: "10px",
+    padding: "13px 0",
+    borderBottom: "1px solid #e2e8f0",
+    color: "#64748b",
+    fontSize: "13px",
+    fontWeight: "bold",
   },
 
   childRow: {
     display: "grid",
-    gridTemplateColumns: "1.6fr 1fr 1.2fr .5fr .7fr .5fr",
+    gridTemplateColumns: "1.5fr 1fr 1fr 0.5fr 0.7fr 0.8fr",
+    gap: "10px",
     alignItems: "center",
     padding: "15px 0",
-    borderBottom: "1px solid #edf0f4",
-    fontSize: "13px",
+    borderBottom: "1px solid #eef2f7",
+    fontSize: "14px",
+  },
+
+  activeBadge: {
+    display: "inline-block",
+    color: "#16a34a",
+    fontWeight: "bold",
   },
 
   deleteButton: {
+    padding: "7px 10px",
     background: "#fee2e2",
     color: "#dc2626",
     border: "none",
     borderRadius: "6px",
-    padding: "7px",
     cursor: "pointer",
   },
 
@@ -875,6 +884,22 @@ const styles = {
     padding: "35px",
     color: "#94a3b8",
   },
+
+  mttCard: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "18px 0",
+    borderBottom: "1px solid #eef2f7",
+  },
+
+  mttRight: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    gap: "8px",
+  },
 };
 
 export default App;
+```

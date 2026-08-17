@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  alert("YANGI APP ISHLAYAPTI");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");

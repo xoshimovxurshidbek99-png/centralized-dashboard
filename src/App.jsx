@@ -396,8 +396,6 @@ function App() {
             </h2>
 
             <input
-              style={styles.search}
-                <input
   style={styles.search}
   placeholder="🔎 Bolani qidirish..."
   value={search}

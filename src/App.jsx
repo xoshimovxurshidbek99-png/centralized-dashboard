@@ -397,9 +397,12 @@ function App() {
 
             <input
               style={styles.search}
-                fontFamily: "Times New Roman, sans-serif",
-  fontSize: "14px",
-  boxSizing: "border-box",
+                <input
+  style={styles.search}
+  placeholder="🔎 Bolani qidirish..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
               placeholder="🔎 Bolani qidirish..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
